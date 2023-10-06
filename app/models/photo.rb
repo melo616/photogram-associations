@@ -31,21 +31,7 @@ class Photo < ApplicationRecord
   belongs_to(:poster, :class_name => "User", :foreign_key => "owner_id")
   has_many(:comments, :class_name => "Comment", :foreign_key => "photo_id")
   has_many(:likes, :class_name => "Like", :foreign_key => "photo_id")
-  
-
-  def fans
-    my_likes = self.likes
-    
-    array_of_user_ids = Array.new
-
-    my_likes.each do |a_like|
-      array_of_user_ids.push(a_like.fan_id)
-    end
-
-    matching_users = User.where({ :id => array_of_user_ids })
-
-    return matching_users
-  end
+  has_many(:fans, :class_name => "User", :foreign_key => "fan_id")
 
   def fan_list
     my_fans = self.fans
